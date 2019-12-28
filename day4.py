@@ -69,7 +69,7 @@ def main():
     x = "123789"
     print(check_number(x) is False)
 
-    print("PART 1:", part_1()) # should be 460
+    print("PART 1:", part_1())  # should be 460
 
     x = "112233"
     print(check_number_2(x) is True)
