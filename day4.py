@@ -1,8 +1,3 @@
-# 209 is wrong
-# 335 is wrong
-# 404 is wrong
-
-
 def part_1() -> int:
     start = 382345
     end = 843167
