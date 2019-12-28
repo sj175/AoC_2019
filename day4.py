@@ -14,7 +14,6 @@ def part_1() -> int:
 
 
 def check_number(problem_input: str) -> bool:
-    # two adjacent digits are the same
     previous = 0
     double = False
     for current in range(1, len(problem_input)):
@@ -28,7 +27,6 @@ def check_number(problem_input: str) -> bool:
 
 
 def check_number_2(problem_input: str) -> bool:
-    # two adjacent digits are the same
     previous = 0
     double = False
     for current in range(1, len(problem_input)):
