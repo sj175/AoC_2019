@@ -1,4 +1,6 @@
-from typing import Callable, Dict, List, Set, Tuple
+# 209 is wrong
+# 335 is wrong
+# 404 is wrong
 
 
 def part_1() -> int:
@@ -28,18 +30,26 @@ def check_number(problem_input: str) -> bool:
 
 def check_number_2(problem_input: str) -> bool:
     previous = 0
-    double = False
+    triple = True
+    seen_a_double = False
+    length = len(problem_input) - 1
     for current in range(1, len(problem_input)):
         if int(problem_input[current]) < int(problem_input[previous]):
             return False
-        if int(problem_input[previous]) == int(problem_input[current]):
-            double = True
+        if int(problem_input[current]) == int(problem_input[previous]):
+            if previous >= 1:
+                triple = int(problem_input[previous - 1]) == int(problem_input[previous])
+            if current < length:
+                triple = int(problem_input[current + 1]) == int(problem_input[current])
+            if not triple:
+                seen_a_double = True
+
         previous += 1
 
-    return double
+    return seen_a_double
 
 
-def part_2(problem_input: str) -> int:
+def part_2() -> int:
     start = 382345
     end = 843167
     total = 0
@@ -66,9 +76,11 @@ def main():
     x = "123444"
     print(check_number_2(x) is False)
     x = "111122"
-    print(check_number_2(x) is False)
+    print(check_number_2(x) is True)
+    x = "112222"
+    print(check_number_2(x) is True)
 
-    print("PART 2:")
+    print("PART 2:", part_2())
 
 
 if __name__ == '__main__':
