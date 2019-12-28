@@ -30,21 +30,26 @@ def check_number(problem_input: str) -> bool:
 
 def check_number_2(problem_input: str) -> bool:
     previous = 0
+    current = 1
     triple = True
     seen_a_double = False
-    length = len(problem_input) - 1
-    for current in range(1, len(problem_input)):
+    length = len(problem_input)
+    while current < length:
         if int(problem_input[current]) < int(problem_input[previous]):
             return False
         if int(problem_input[current]) == int(problem_input[previous]):
             if previous >= 1:
                 triple = int(problem_input[previous - 1]) == int(problem_input[previous])
-            if current < length:
+            if current < length - 1:
                 triple = int(problem_input[current + 1]) == int(problem_input[current])
+                while current < length - 1 and int(problem_input[current]) == int(problem_input[current + 1]):
+                    current += 1
+                    previous += 1
             if not triple:
                 seen_a_double = True
 
         previous += 1
+        current += 1
 
     return seen_a_double
 
@@ -79,6 +84,8 @@ def main():
     print(check_number_2(x) is True)
     x = "112222"
     print(check_number_2(x) is True)
+    x = "1112589"
+    print(check_number_2(x) is False)
 
     print("PART 2:", part_2())
 
