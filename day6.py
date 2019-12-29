@@ -71,11 +71,17 @@ def part_2(problem_input: str, start: str, end: str) -> int:
     lines = problem_input.split("\n")
     start = find_orbital_parent(start, lines)
     end = find_orbital_parent(end, lines)
+    seen = set()
 
     to_visit = [(start, 0)]
     while to_visit:
         current = to_visit[0]
         to_visit = to_visit[1:]
+        # print(current)
+        if current[0] in seen:
+            # print("seen", current[0], " before")
+            continue
+        seen.add(current[0])
         count = current[1]
         if current[0] == end:
             return count
@@ -115,7 +121,7 @@ K)L
 K)YOU
 I)SAN""", "YOU", "SAN"))
 
-    #print(part_2(read_input(), "YOU", "SAN"))
+    print(part_2(read_input(), "YOU", "SAN"))
 
 
 if __name__ == '__main__':
