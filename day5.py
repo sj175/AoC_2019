@@ -18,19 +18,6 @@ def part_1():
     run(12, 2)
 
 
-def main():
-    noun, verb = part_2()
-
-    print(noun, verb, noun * 100 + verb)
-
-
-def part_2():
-    for noun in range(0, 99):
-        for verb in range(0, 99):
-            if run(noun, verb) == 19690720:
-                return noun, verb
-
-
 def run(noun, verb):
     p1_input = read_file()
     program = list(map(int, p1_input.split(",")))
@@ -45,9 +32,9 @@ def run(noun, verb):
 
 
 def read_file():
-    with open('AoC2019_p2_p1.txt', 'r') as f:
+    with open('day5.txt', 'r') as f:
         return f.read()
 
 
 if __name__ == '__main__':
-    main()
+    part_1()
