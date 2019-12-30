@@ -1,28 +1,40 @@
-def process(opcode, index1, index2, output_index, program):
+def get_input() -> str:
+    return input(">")
+
+
+def return_output(output: int) -> int:
+    print(output)
+
+
+def process(opcode: int, *vals, mem_location, worktape):
     if opcode == 1:
-        program[output_index] = program[index1] + program[index2]
+        worktape[mem_location] = worktape[vals[0]] + worktape[vals[1]]
         return True
     elif opcode == 2:
-        program[output_index] = program[index1] * program[index2]
+        worktape[mem_location] = worktape[vals[0]] * worktape[vals[1]]
         return True
+    elif opcode == 3:
+        worktape[mem_location] = get_input()
+    elif opcode == 4:
+        return_output(worktape[mem_location])
     elif opcode == 99:
         print("DONE")
-        print("value at position 0: ", program[0])
         return False
     else:
         print("ERROR")
         raise Exception("it's fucked")
 
 
+def opcode_decoder(opcode: str) -> int:
+    pass
+
+
 def part_1():
-    run(12, 2)
+    run()
 
 
-def run(noun, verb):
-    p1_input = read_file()
-    program = list(map(int, p1_input.split(",")))
-    program[1] = noun
-    program[2] = verb
+def run():
+    program = read_file().split(",")
 
     current = 0
     while process(program[current], program[current + 1], program[current + 2], program[current + 3], program):
