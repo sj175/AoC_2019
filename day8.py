@@ -25,13 +25,17 @@ def part_1(problem_input: str, width=25, height=6) -> int:
     layers = list(grouper(height, list(grouper(width, problem_input))))
 
     my_min = 999999999
-    min_layer = ()
+    min_layer: List[Tuple[int, ...]] = [()]
     for layer in layers:
         if layer_count(layer, "0") < my_min:
             my_min = layer_count(layer, "0")
             min_layer = layer
 
     return layer_count(min_layer, "1") * layer_count(min_layer, "2")
+
+
+def part_2(problem_input: str):
+    pass
 
 
 if __name__ == '__main__':
