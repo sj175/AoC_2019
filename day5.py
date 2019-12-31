@@ -12,7 +12,7 @@ def return_output(output: int) -> None:
     print(output)
 
 
-def process(opcode: int, *parameters: int, worktape):
+def process(opcode: int, *parameters: int, worktape: list):
     if opcode == 1:
         worktape[parameters[-1]] = parameters[0] + parameters[1]
         return True
@@ -35,6 +35,8 @@ def process(opcode: int, *parameters: int, worktape):
 
 def fetch_parameters(opcode: int, parameter_modes: List[str], memory: List[str], *parameter_data: int) -> Tuple[
     int, ...]:
+    """fetches the parameters and returns a tuple consisting of each parameter. The final element of the tuple is the
+    output address for this instruction. Opcode 4 does not necessarily have an output address so it is optional"""
     opcode_length = {1: 4, 2: 4, 3: 2, 4: 2, 99: 1}  # todo: remove duplication
     num_of_params = opcode_length[opcode] - 1
     params = []
