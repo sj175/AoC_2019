@@ -18,8 +18,10 @@ def process(opcode: int, *parameters: int, worktape):
         return True
     elif opcode == 3:
         worktape[parameters[-1]] = get_input()
+        return True
     elif opcode == 4:
         return_output(worktape[parameters[-1]])
+        return True
     elif opcode == 99:
         print("DONE")
         return False
@@ -59,7 +61,9 @@ def opcode_decoder(opcode_data: str) -> int:
 
 
 def part_1():
-    run("""1002,4,3,4,33""")
+    # run("""1002,4,3,4,33""")
+
+    run(read_file())
 
 
 def run(problem_input: str):
@@ -68,7 +72,7 @@ def run(problem_input: str):
 
     current = 0
     while True:
-        opcode_data = str(program[current])
+        opcode_data = str(program[current]).rjust(2, "0")
         opcode = opcode_decoder(opcode_data)
         parameter_data = program[current + 1:current + opcode_length[opcode]]
         parameters = fetch_parameters(opcode, list(opcode_data[:-2][::-1]), program, *map(int, parameter_data))
