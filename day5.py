@@ -1,6 +1,8 @@
 from typing import Tuple, List
 
 
+# 13294380 is right, but I didn't get a 0 on the first output.
+
 def get_input() -> str:
     return input(">")
 
@@ -11,7 +13,7 @@ def return_output(output: int) -> None:
 
 def process(opcode: int, *parameters: int, worktape):
     if opcode == 1:
-        worktape[parameters[-1]] = worktape[parameters[0]] + worktape[parameters[1]]
+        worktape[parameters[-1]] = parameters[0] + parameters[1]
         return True
     elif opcode == 2:
         worktape[parameters[-1]] = parameters[0] * parameters[1]
@@ -30,7 +32,8 @@ def process(opcode: int, *parameters: int, worktape):
         raise Exception("it's fucked")
 
 
-def fetch_parameters(opcode: int, parameter_modes: List[str], memory: List[str], *parameter_data: int) -> Tuple[int, ...]:
+def fetch_parameters(opcode: int, parameter_modes: List[str], memory: List[str], *parameter_data: int) -> Tuple[
+    int, ...]:
     opcode_length = {1: 4, 2: 4, 3: 2, 4: 2, 99: 1}  # todo: remove duplication
     num_of_params = opcode_length[opcode] - 1
     params = []
