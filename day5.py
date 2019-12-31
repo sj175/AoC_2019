@@ -1,7 +1,8 @@
 from typing import Tuple, List
 
 
-# 13294380 is right, but I didn't get a 0 on the first output.
+# 13294380 is right, but I didn't get a 0 on the first output. this is because line 26 assumes we never have mode 1 for
+# opcode 4. I should treat the "output" locations differently to parameters, then this problem will be solved.
 
 def get_input() -> str:
     return input(">")
