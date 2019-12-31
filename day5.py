@@ -1,22 +1,25 @@
+from typing import Tuple, List
+
+
 def get_input() -> str:
     return input(">")
 
 
-def return_output(output: int) -> int:
+def return_output(output: int) -> None:
     print(output)
 
 
-def process(opcode: int, *vals, mem_location, worktape):
+def process(opcode: int, *parameters: int, worktape):
     if opcode == 1:
-        worktape[mem_location] = worktape[vals[0]] + worktape[vals[1]]
+        worktape[parameters[-1]] = worktape[parameters[0]] + worktape[parameters[1]]
         return True
     elif opcode == 2:
-        worktape[mem_location] = worktape[vals[0]] * worktape[vals[1]]
+        worktape[parameters[-1]] = parameters[0] * parameters[1]
         return True
     elif opcode == 3:
-        worktape[mem_location] = get_input()
+        worktape[parameters[-1]] = get_input()
     elif opcode == 4:
-        return_output(worktape[mem_location])
+        return_output(worktape[parameters[-1]])
     elif opcode == 99:
         print("DONE")
         return False
@@ -25,20 +28,53 @@ def process(opcode: int, *vals, mem_location, worktape):
         raise Exception("it's fucked")
 
 
-def opcode_decoder(opcode: str) -> int:
-    pass
+def fetch_parameters(opcode: int, parameter_modes: List[str], memory: List[str], *parameter_data: int) -> Tuple[int, ...]:
+    opcode_length = {1: 4, 2: 4, 3: 2, 4: 2, 99: 1}  # todo: remove duplication
+    num_of_params = opcode_length[opcode] - 1
+    params = []
+
+    while len(parameter_modes) < num_of_params:
+        parameter_modes.append("0")
+
+    assert len(parameter_modes) == len(parameter_data) == num_of_params
+
+    for i, mode in enumerate(parameter_modes):
+        if i == len(parameter_modes) - 1:
+            params.append(int(parameter_data[i]))
+            break
+        if mode == '0':
+            params.append(int(memory[parameter_data[i]]))
+        elif mode == '1':
+            params.append(parameter_data[i])
+        else:
+            print("unsupported parameter mode:", mode)
+
+    assert len(params) == num_of_params
+
+    return tuple(params)
+
+
+def opcode_decoder(opcode_data: str) -> int:
+    return int(opcode_data[-2] + opcode_data[-1])
 
 
 def part_1():
-    run()
+    run("""1002,4,3,4,33""")
 
 
-def run():
-    program = read_file().split(",")
+def run(problem_input: str):
+    program = problem_input.split(",")
+    opcode_length = {1: 4, 2: 4, 3: 2, 4: 2, 99: 1}
 
     current = 0
-    while process(program[current], program[current + 1], program[current + 2], program[current + 3], program):
-        current += 4
+    while True:
+        opcode_data = str(program[current])
+        opcode = opcode_decoder(opcode_data)
+        parameter_data = program[current + 1:current + opcode_length[opcode]]
+        parameters = fetch_parameters(opcode, list(opcode_data[:-2][::-1]), program, *map(int, parameter_data))
+        if not process(opcode, *parameters, worktape=program):  # todo fix this
+            break
+        current += opcode_length[opcode]
 
     return program[0]
 
