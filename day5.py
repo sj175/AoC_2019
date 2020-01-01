@@ -23,7 +23,7 @@ def process(opcode: int, *parameters: int, worktape: list):
         worktape[parameters[-1]] = get_input()
         return True
     elif opcode == 4:
-        return_output(worktape[parameters[-1]])
+        return_output(parameters[-1])
         return True
     elif opcode == 99:
         print("DONE")
@@ -47,7 +47,7 @@ def fetch_parameters(opcode: int, parameter_modes: List[str], memory: List[str],
     assert len(parameter_modes) == len(parameter_data) == num_of_params
 
     for i, mode in enumerate(parameter_modes):
-        if i == len(parameter_modes) - 1:
+        if opcode != 4 and i == len(parameter_modes) - 1:
             params.append(int(parameter_data[i]))
             break
         if mode == '0':
