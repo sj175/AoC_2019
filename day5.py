@@ -25,6 +25,11 @@ def process(opcode: int, *parameters: int, worktape: list):
     elif opcode == 4:
         return_output(parameters[-1])
         return True
+    elif opcode == 7:
+        worktape[parameters[-1]] = 1 if parameters[0] < parameters[1] else 0
+        return True
+    elif opcode == 8:
+        worktape[parameters[-1]] = 1 if parameters[0] == parameters[1] else 0
     elif opcode == 99:
         print("DONE")
         return False
